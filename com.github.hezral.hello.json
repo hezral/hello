@@ -4,6 +4,7 @@
     "runtime-version" : "3.34",
     "sdk" : "org.gnome.Sdk",
     "command" : "hello",
+    "appstream-compose" : false,
     "finish-args" : [
         "--share=network",
         "--share=ipc",
