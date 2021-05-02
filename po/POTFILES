@@ -1,0 +1,7 @@
+data/com.github.hezral.hello.desktop.in
+data/com.github.hezral.hello.appdata.xml.in
+data/com.github.hezral.hello.gschema.xml
+src/window.ui
+src/main.py
+src/window.py
+
