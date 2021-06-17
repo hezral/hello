@@ -15,14 +15,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from gi.repository import Gtk
+import gi
+gi.require_version('Handy', '1')
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Handy, Gdk, Gio
 
-
-@Gtk.Template(resource_path='/com/github/hezral/hello/window.ui')
-class HelloWindow(Gtk.ApplicationWindow):
+class HelloWindow(Handy.ApplicationWindow):
     __gtype_name__ = 'HelloWindow'
 
-    label = Gtk.Template.Child()
+    Handy.init()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        header = Handy.HeaderBar()
+        header.props.show_close_button = True
+        header.props.hexpand = True
+        header.props.title = "Hello World"
+
+        label = Gtk.Label("Hello World")
+        label.props.expand = True
+        label.props.valign = label.props.halign = Gtk.Align.CENTER
+
+        grid = Gtk.Grid()
+        grid.props.expand = True
+        grid.attach(header, 0, 0, 1, 1)
+        grid.attach(label, 0, 1, 1, 1)
+
+        self.add(grid)
+        self.props.default_width = 480
+        self.props.default_height = 320
+        self.show_all()

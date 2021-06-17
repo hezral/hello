@@ -11,13 +11,8 @@ finish-args:
   - --device=dri
   # needed for perfers-color-scheme
   - --system-talk-name=org.freedesktop.Accounts
+  - --filesystem=home
 modules:
-  - name: xsuspender
-    buildsystem: cmake
-    sources:
-      - type: git
-        url: https://github.com/kernc/xsuspender.git
-        tag: '1.2'
   - name: hello
     buildsystem: meson
     sources:
