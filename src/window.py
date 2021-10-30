@@ -1,27 +1,15 @@
-# window.py
-#
-# Copyright 2021 Adi Hezral
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2021 Adi Hezral <hezral@gmail.com>
 
 import gi
 gi.require_version('Handy', '1')
+gi.require_version('Granite', '1.0')
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Handy, Gdk, Gio
+gi.require_version('WebKit2', '4.0')
+from gi.repository import Gtk, Handy, Gdk, Gio, WebKit2, GLib, cairo, Granite
 
-class HelloWindow(Handy.ApplicationWindow):
-    __gtype_name__ = 'HelloWindow'
+class helloWindow(Handy.ApplicationWindow):
+    __gtype_name__ = 'helloWindow'
 
     Handy.init()
 
@@ -31,18 +19,36 @@ class HelloWindow(Handy.ApplicationWindow):
         header = Handy.HeaderBar()
         header.props.show_close_button = True
         header.props.hexpand = True
-        header.props.title = "Hello World"
+        header.props.title = "hello World"
 
-        label = Gtk.Label("Hello World")
+        label = Gtk.Label("hello World")
         label.props.expand = True
         label.props.valign = label.props.halign = Gtk.Align.CENTER
 
-        grid = Gtk.Grid()
-        grid.props.expand = True
-        grid.attach(header, 0, 0, 1, 1)
-        grid.attach(label, 0, 1, 1, 1)
+        self.grid = Gtk.Grid()
+        self.grid.props.expand = True
+        self.grid.attach(header, 0, 0, 1, 1)
+        self.grid.attach(label, 0, 1, 1, 1)
+        self.grid.connect("button-press-event", self.on_button_press)
 
-        self.add(grid)
+        window_handle = Handy.WindowHandle() 
+        window_handle.add(self.grid)
+
+        self.add(window_handle)
         self.props.default_width = 480
         self.props.default_height = 320
         self.show_all()
+
+        self.window_menu = Gtk.Menu()
+        screenshot = Gtk.MenuItem()
+        screenshot_accellabel = Granite.AccelLabel(label="Take Screenshot")
+        screenshot.add(screenshot_accellabel)
+        self.window_menu.append(screenshot)
+        self.window_menu.show_all()
+
+    def on_button_press(self, windowhandle, eventbutton):
+
+        print(eventbutton.button)
+        if eventbutton.button == 1:
+            self.window_menu.popup_at_pointer()
+        

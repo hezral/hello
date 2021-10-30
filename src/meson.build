@@ -11,8 +11,8 @@ conf.set('localedir', join_paths(get_option('prefix'), get_option('localedir')))
 conf.set('pkgdatadir', pkgdatadir)
 
 configure_file(
-  input: 'hello.in',
-  output: 'hello',
+  input: '.'.join([project_short_name,'in']),
+  output: meson.project_name(),
   configuration: conf,
   install: true,
   install_dir: get_option('bindir')

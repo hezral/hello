@@ -1,8 +1,8 @@
 app-id: com.github.hezral.hello
 runtime: io.elementary.Sdk
-runtime-version: 'daily'
+runtime-version: '6'
 sdk: io.elementary.Sdk
-command: hello
+command: com.github.hezral.hello
 appstream-compose: false
 finish-args:
   - --socket=wayland
