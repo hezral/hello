@@ -3,10 +3,10 @@
 
 import gi
 gi.require_version('Handy', '1')
-gi.require_version('Granite', '1.0')
 gi.require_version('Gtk', '3.0')
-gi.require_version('WebKit2', '4.0')
-from gi.repository import Gtk, Handy, Gdk, Gio, WebKit2, GLib, cairo, Granite
+from gi.repository import Gtk, Handy, GObject
+
+from .mode_switch import ModeSwitch
 
 class helloWindow(Handy.ApplicationWindow):
     __gtype_name__ = 'helloWindow'
@@ -16,10 +16,19 @@ class helloWindow(Handy.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.app = self.props.application
+
+        light = Gtk.Image().new_from_icon_name("display-brightness-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
+        dark = Gtk.Image().new_from_icon_name("weather-clear-night-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
+        modeswitch = ModeSwitch(light, dark, None, None)
+        modeswitch.switch.bind_property("active", self.app.gtk_settings, "gtk_application_prefer_dark_theme", GObject.BindingFlags.SYNC_CREATE)
+
         header = Handy.HeaderBar()
         header.props.show_close_button = True
         header.props.hexpand = True
         header.props.title = "hello World"
+        header.props.decoration_layout = "close:"
+        header.pack_end(modeswitch)
 
         label = Gtk.Label("hello World")
         label.props.expand = True
@@ -29,7 +38,6 @@ class helloWindow(Handy.ApplicationWindow):
         self.grid.props.expand = True
         self.grid.attach(header, 0, 0, 1, 1)
         self.grid.attach(label, 0, 1, 1, 1)
-        self.grid.connect("button-press-event", self.on_button_press)
 
         window_handle = Handy.WindowHandle() 
         window_handle.add(self.grid)
@@ -39,16 +47,4 @@ class helloWindow(Handy.ApplicationWindow):
         self.props.default_height = 320
         self.show_all()
 
-        self.window_menu = Gtk.Menu()
-        screenshot = Gtk.MenuItem()
-        screenshot_accellabel = Granite.AccelLabel(label="Take Screenshot")
-        screenshot.add(screenshot_accellabel)
-        self.window_menu.append(screenshot)
-        self.window_menu.show_all()
-
-    def on_button_press(self, windowhandle, eventbutton):
-
-        print(eventbutton.button)
-        if eventbutton.button == 1:
-            self.window_menu.popup_at_pointer()
         

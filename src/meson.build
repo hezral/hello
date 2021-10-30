@@ -22,6 +22,7 @@ hello_sources = [
   '__init__.py',
   'main.py',
   'window.py',
+  'mode_switch.py'
 ]
 
 install_data(hello_sources, install_dir: moduledir)

@@ -1,5 +1,5 @@
 app-id: com.github.hezral.hello
-runtime: io.elementary.Sdk
+runtime: io.elementary.Platform
 runtime-version: '6'
 sdk: io.elementary.Sdk
 command: com.github.hezral.hello
@@ -8,10 +8,8 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --share=network
-  - --device=dri
   # needed for perfers-color-scheme
   - --system-talk-name=org.freedesktop.Accounts
-  - --filesystem=home
 modules:
   - name: hello
     buildsystem: meson
