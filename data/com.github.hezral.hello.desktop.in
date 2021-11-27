@@ -3,5 +3,5 @@ Name=hello
 Exec=com.github.hezral.hello
 Terminal=false
 Type=Application
-Categories=GTK;
+Categories=Utility;System;
 StartupNotify=true
